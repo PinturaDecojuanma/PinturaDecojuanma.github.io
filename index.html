@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pintores en Benidorm | Lujo y Espacio - Decoración y Revestimientos</title>
+    <meta name="description" content="Especialistas en pintura y decoración en Benidorm y alrededores. 25 años de experiencia en revestimientos de fachadas y diseño de interiores. Solicite su presupuesto sin compromiso.">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050505;
+            --bg-surface: #0f1117;
+            --accent: #c5a059;
+            --accent-glow: rgba(197, 160, 89, 0.4);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Fondo de rejilla estilo Astro */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 50% 0%, #1a1b23 0%, transparent 50%),
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            z-index: -1;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 15px 5%;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #fff;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            margin: 0 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* --- MENÚ MÓVIL (NUEVO) --- */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--text-main);
+            transition: 0.3s;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            height: 100vh;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1050;
+            border-left: 1px solid var(--border);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Animación del botón hamburguesa */
+        .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            position: relative;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 5% 60px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-img-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.4), var(--bg-deep)), 
+                        url('IMG-20260128-WA0012.jpg') center/cover no-repeat;
+            z-index: -1;
+            filter: brightness(0.6);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--glass);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 8vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to bottom, #fff, #999);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--text-muted);
+            margin-bottom: 35px;
+            font-weight: 300;
+        }
+
+        /* --- BOTONES --- */
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        /* --- SECCIÓN DATOS (Visualmente Agradable) --- */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 40px 5%;
+            margin-top: -60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card {
+            background: var(--bg-surface);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- GALERÍA MASONRY --- */
+        .gallery-container {
+            padding: 100px 5%;
+        }
+
+        .section-header {
+            text-align: left;
+            margin-bottom: 50px;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+        }
+
+        .masonry {
+            column-count: 2;
+            column-gap: 20px;
+        }
+
+        .masonry-item {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+        }
+
+        .masonry-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.8s ease;
+            filter: brightness(0.9);
+        }
+
+        .masonry-item:hover img {
+            transform: scale(1.08);
+            filter: brightness(1.1);
+        }
+
+        /* --- WHATSAPP FLOTANTE --- */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background: #25d366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .whatsapp-btn:hover { transform: scale(1.1); }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 80px 5% 40px;
+            background: #000;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-content p { color: var(--text-muted); margin-bottom: 30px; }
+
+        /* --- RESPONSIVO MÓVIL --- */
+        @media (max-width: 768px) {
+            .masonry { column-count: 1; }
+            .hero { padding-top: 100px; min-height: 70vh; }
+            .hero h1 { font-size: 2.5rem; }
+            .features { margin-top: 20px; padding-top: 0; }
+            .section-header h2 { font-size: 1.8rem; }
+            nav { padding: 12px 5%; }
+            .nav-links, nav > .btn { display: none; } /* Ocultar links y botón original en móvil */
+            .menu-toggle { display: flex; }
+            .logo { font-size: 1rem; }
+            .whatsapp-btn { width: 50px; height: 50px; bottom: 20px; right: 20px; font-size: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg"></div>
+
+    <nav>
+        <a href="#" class="logo">LUJO <span>&</span> ESPACIO</a>
+        <div class="nav-links">
+            <a href="#">Inicio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#proyectos">Proyectos</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+        <a href="https://wa.me/34618562958" target="_blank" rel="noopener" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.7rem;">Presupuesto</a>
+        
+        <!-- Botón Hamburguesa -->
+        <button class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Menú Móvil Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#contacto">Contacto</a>
+        <a href="https://wa.me/34618562958" target="_blank" rel="noopener" class="btn btn-primary">Presupuesto</a>
+    </div>
+
+    <header class="hero">
+        <div class="hero-img-bg"></div>
+        <div class="hero-content">
+            <div class="badge">Desde 2001</div>
+            <h1>25 AÑOS NOS AVALAN</h1>
+            <p>Especialistas en decoración de interiores y revestimientos técnicos para fachadas. Calidad, precio y experiencia a su servicio.</p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="https://wa.me/34618562958" target="_blank" rel="noopener" class="btn btn-primary">Solicitar Información</a>
+                <a href="#proyectos" class="btn" style="border: 1px solid var(--border); color: #fff;">Ver Trabajos</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="features" id="servicios">
+        <div class="feature-card">
+            <h3>25 Años</h3>
+            <p>Dos décadas de trayectoria garantizan acabados perfectos y duraderos.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Zona</h3>
+            <p>Benidorm y alrededores. Nos desplazamos para ofrecerle el mejor servicio.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Calidad & Precio</h3>
+            <p>Ajustamos cada presupuesto sin comprometer la excelencia de los materiales.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Todo Tipo</h3>
+            <p>Desde pintura decorativa hasta reformas de fachadas integrales.</p>
+        </div>
+    </section>
+
+    <section class="gallery-container" id="proyectos">
+        <div class="section-header">
+            <span>Portfolio</span>
+            <h2>Nuestros Proyectos</h2>
+        </div>
+
+        <div class="masonry">
+            <div class="masonry-item">
+                <img src="IMG-20260128-WA0009.jpg" alt="Acabado rosa estucado">
+            </div>
+            <div class="masonry-item">
+                <img src="IMG-20260128-WA0004.jpg" alt="Revestimiento técnico pared">
+            </div>
+            <div class="masonry-item">
+                <img src="IMG-20260128-WA0007.jpg" alt="Diseño geométrico interior">
+            </div>
+            <div class="masonry-item">
+                <img src="IMG-20260128-WA0008.jpg" alt="Detalle papel pintado moderno">
+            </div>
+            <div class="masonry-item">
+                <!-- Imagen de fondo dormitorio utilizada en el hero también se muestra aquí -->
+                <img src="IMG-20260128-WA0012.jpg" alt="Decoración dormitorio lujo">
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <div class="footer-content">
+            <h2>Transforme su espacio hoy</h2>
+            <p>Zona Benidorm y alrededores</p>
+            <div style="margin-bottom: 30px; display: flex; flex-direction: column; gap: 10px; align-items: center;">
+                <a href="tel:+34618562958" style="color: var(--accent); text-decoration: none; font-weight: 600;">Tel: 618 562 958</a>
+                <a href="mailto:juanmanuelmorenocano16@gmail.com" style="color: var(--text-muted); text-decoration: none;">juanmanuelmorenocano16@gmail.com</a>
+            </div>
+            <a href="https://wa.me/34618562958" target="_blank" rel="noopener" class="btn btn-primary">Contactar Ahora</a>
+        </div>
+        <div style="margin-top: 60px; font-size: 0.7rem; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase;">
+            © 2026 Lujo & Espacio · Profesionales del Revestimiento
+        </div>
+    </footer>
+
+    <!-- WhatsApp Flotante -->
+    <a href="https://wa.me/34618562958" class="whatsapp-btn" target="_blank" aria-label="Contactar por WhatsApp">
+        <svg width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.562 6.562 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+        </svg>
+    </a>
+
+    <script>
+        // Efecto de aparición progresiva al bajar (Scroll Reveal)
+        const observerOptions = { threshold: 0.15 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .masonry-item').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(30px)";
+            el.style.transition = "all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)";
+            observer.observe(el);
+        });
+
+        // Toggle Menú Móvil
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    </script>
+</body>
+</html>
