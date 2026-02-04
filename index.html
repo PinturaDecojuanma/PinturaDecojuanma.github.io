@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+        <!-- Capas de Seguridad Avanzada -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
     <!-- SEO Meta Tags Esenciales -->
     <title>Pintores Benidorm | Lujo y Espacio - Pintores Económicos y Profesionales</title>
     <meta name="description" content="¿Buscas pintores en Benidorm? Especialistas con 25 años de experiencia. Alisado de paredes, quitar gotelé, estuco veneciano y pintura de fachadas. ¡Presupuesto GRATIS hoy mismo! ⭐">
@@ -138,6 +143,23 @@
             --text-muted: #94a3b8;
             --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.08);
+        }
+
+        /* --- PROTECCIÓN DE CONTENIDO --- */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* Permitir selección solo en campos específicos si los hubiera */
+        input, textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
         }
 
         html {
@@ -698,6 +720,29 @@
                 mobileMenu.classList.remove('active');
                 document.body.style.overflow = '';
             });
+        });
+
+        /* --- SCRIPT DE SEGURIDAD ANTIPLAGIO Y MANIPULACIÓN --- */
+        
+        // Bloquear Clic Derecho
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Bloquear atajos de teclado de inspección (F12, Ctrl+U, Ctrl+Shift+I, etc)
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false; // F12
+            if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+        };
+
+        // Anti-Iframe (Evitar Clickjacking)
+        if (window.top !== window.self) {
+            window.top.location = window.self.location;
+        }
+
+        // Protección de imágenes
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('dragstart', e => e.preventDefault());
         });
     </script>
 </body>
